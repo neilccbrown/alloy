@@ -1,0 +1,112 @@
+\documentclass{article}
+
+\usepackage{listings}
+\lstnewenvironment{code}{}{}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{graphicx}
+
+\definecolor{KBlue}{rgb}{0.0,0.2196,0.5098}    % 0, 56, 130
+\definecolor{listinggray}{gray}{0.95}
+
+\newcommand{\footnoteremember}[2]{
+  \footnote{#2}
+  \newcounter{#1}
+  \setcounter{#1}{\value{footnote}}
+}
+\newcommand{\footnoterecall}[1]{\footnotemark[\value{#1}]}
+
+\lstdefinelanguage[improved]{Haskell}
+   % To separate out word keywords from symbol keywords for different formatting,
+   % we define the word keywords as emph items (use emphstyle):
+  {classoffset=0,
+   %If we don't specify at least one "non-other" keyword, listings doesn't work, hence:
+   morekeywords={hduisahfiuabfyasbyoasvbfuyvosf},
+   otherkeywords={::,=,==,->,=>,>>,>>=,>>*,$,++,<-,<|>,<->,<||>,</>,\\,.,__,<&>},
+   classoffset=1,
+   morekeywords={data,forall,type,module,newtype,let,in,do,where,if,then,else,qualified,as,import},
+   % For some (unknown) reason, setting classoffset = 0 again after this line
+   % breaks the highlighting.
+   morecomment=[l]{--},
+%   morestring=[b]',
+   morestring=[b]",
+  }
+%$
+\lstset{
+	language={[improved]Haskell},
+	columns=flexible,
+        backgroundcolor=\color{listinggray},
+        frameround=tttt,
+        frame=trbl,
+        framerule=0.4pt,
+	basicstyle=\small\sffamily,
+	emphstyle=\bfseries,
+        keywordstyle=[1]{\color{KBlue}\bfseries},
+        keywordstyle=[0]{\color{KBlue}\bfseries\ttfamily},
+	identifierstyle=,
+	commentstyle=,
+	stringstyle=\ttfamily,
+	showstringspaces=false}
+\thicklines
+
+\title{Alloy tutorial}
+\author{Neil C. C. Brown}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction}
+
+This document is a tutorial for the Alloy generics library.  Alloy is similar
+to other generics libraries, such as Scrap Your Boilerplate (SYB), Uniplate,
+EMGM and all the rest.  Alloy tends to be quite fast (see our paper for
+benchmarks) because it avoids traversing parts of the data structure that it
+does not need to.
+
+This is accomplished by generating type-class instances based on the
+can-contain relation between types.  The current set of operations (opset) is
+trimmed dynamically to remove types that can no longer be contained in the
+data item being traversed.  For more details, see the draft paper.
+%TODO
+
+%\newpage
+%\tableofcontents
+
+\newpage
+\section{Paradise Benchmark}
+\input{CompanyDatatypes.lhs}
+\newpage
+\subsection{The Basics}
+\input{GenTypes.lhs}
+\input{Paradise.lhs}
+\newpage
+\subsection{Multiple Target Types and Controlled Descent}
+\input{Selective.lhs}
+\subsection{Type-Class Constraints}
+\input{Constraints.lhs}
+
+\newpage
+\subsection{Effects}
+\input{Effects.lhs}
+\newpage
+\input{EffectsSelective.lhs}
+
+\newpage
+\subsection{Queries}
+\input{Query.lhs}
+
+\newpage
+\subsection{Routes}
+\input{Routes.lhs}
+
+\newpage
+\subsection{Maps and Sets}
+\input{MapSet.lhs}
+\input{GenTypesMapSet.lhs}
+\input{MapSetExample.lhs}
+
+%\newpage
+%\section{Frequently Asked Questions}
+
+\end{document}
